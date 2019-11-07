@@ -5,25 +5,33 @@ var uniqueValidator = require('mongoose-unique-validator');
 var Schema = mongoose.Schema;
 
 
-var Shop = new Schema({
-  item: {
+var Organizer = new Schema({
+  name: { 
     type: String,
-    required: true,
-    unique: [true,"item must be unique"]
+    required: true, 
+    unique: true 
   },
-  quantity: {
-    type: Number,
-    min: 1,
-    required: true
+  email: { 
+    type: String, 
+    unique: true, 
+    required: true 
   },
-  priority: {
-    type: Number,
-    min: 1,
-    max: 3,
-    required: true
+  contact: { 
+    type: Number, 
+    unique: true, 
+    required: true 
+  },
+  address: { 
+    type: String, 
+    unique: true, 
+    required: true 
+  },
+  password: { 
+    type: password, 
+    required: true 
   }
 });
-Shop.plugin(uniqueValidator, { message: '{item} must be unique' });
+Organizer.plugin(uniqueValidator, { message: '{item} must be unique' });
 
 // Compile model from schema
-module.exports = mongoose.model('Item', Shop);
+module.exports = mongoose.model('Item', Organizer);
