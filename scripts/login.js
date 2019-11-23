@@ -1,7 +1,7 @@
-const login = require('./login.js');
+const login = require('./loginmodel.js');
 
-module.exports.findAll = (req, res) => {
-    login.findAll((err,data)=>{
+module.exports.findAll = (reqEmail,reqPass, res) => {
+    login.find({email:reqEmail , password: reqPass},(err,data)=>{
         if (err){
             res.send(err);
         }

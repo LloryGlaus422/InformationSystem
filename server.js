@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const mongoose = require('mongoose');
 const account = require('./scripts/myController');
+const login = require('./scripts/login');
 const quer = require('./scripts/Myinquery');
 const dbConfig = 'mongodb://127.0.0.1:27017/WeOrg';
 const db = mongoose.connection;
@@ -21,11 +22,6 @@ mongoose.connect(dbConfig, { useNewUrlParser: true, useUnifiedTopology: true }
   process.exit();
 });
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-
-
-app.post('/account', function (req, res) {
-  account.create(req, res);
-});
 
 app.post('/query', function (req, res) {
   quer.create(req, res);
@@ -52,6 +48,21 @@ app.delete('/query/delete/:name', function (req, res) {
   const name = req.params.name;
   quer.delete(req, res, name);
 })
+
+// for log in
+app.post('/login',(req,res) =>{
+  login.find((err, loginyou) => {
+    if (err){
+      return res.send(err);
+    }
+    res.send(loginyou)
+  })
+})
+// for accoutns
+
+app.post('/account', function (req, res) {
+  account.create(req, res);
+});
 
 app.post('/retrieveOne/:name', function (req, res) {
   const namei = req.params.name;
