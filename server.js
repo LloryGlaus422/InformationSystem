@@ -3,12 +3,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const mongoose = require('mongoose');
-const account = require('./scripts/myController');
+const account = require('./scripts/createAccount');
 const login = require('./scripts/login');
-const quer = require('./scripts/Myinquery');
+const quer = require('./scripts/createQuery');
 const dbConfig = 'mongodb://127.0.0.1:27017/WeOrg';
 const db = mongoose.connection;
-const action = require('./scripts/try');
+const action = require('./scripts/actionAccount');
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
@@ -50,18 +50,19 @@ app.delete('/query/delete/:name', function (req, res) {
 })
 
 // for log in
-app.post('/login',(req,res) =>{
-  login.find((err, loginyou) => {
-    if (err){
-      return res.send(err);
-    }
-    res.send(loginyou)
-  })
-})
+// app.post('/login',(req,res) =>{
+//   login.find((err, loginyou) => {
+//     if (err){
+//       return res.send(err);
+//     }
+//     res.send(loginyou)
+//   })
+// })
 // for accoutns
 
 app.post('/account', function (req, res) {
   account.create(req, res);
+  console.log(req.body)
 });
 
 app.post('/retrieveOne/:name', function (req, res) {
@@ -104,6 +105,35 @@ app.delete('/Delete/:name', function (req, res) {
   })
 })
 
+
+app.get('/login', function(req, res){
+  console.log(req.body)
+  const namei = req.params.name;
+  const passwordi = req.params.password;
+  console.log(namei,passwordi)
+  if (namei != undefined && passwordi !=undefined) {
+    login.findOne(namei).then(resp => {
+      res.send(resp)
+    }).catch(err => {
+      res.send(err)
+    })
+  }
+});
+
+app.post('/login', function(req, res){
+  console.log(req.body)
+  if(!req.body.name || !req.body.password){
+     res.render('login', {message: "Please enter both id and password"});
+  } else {
+    account.filter(function(user){
+        if(user.name === req.body.name && user.password === req.body.password){
+           req.session.account = account;
+           res.send('fdsajfdksj');
+        }
+     });
+     res.render('login', {message: "Invalid credentials!"});
+  }
+});
 
 app.listen(port, () => {
   console.log("Server is listening on port " + port);

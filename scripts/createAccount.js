@@ -1,4 +1,4 @@
-const NewORg = require('./model.js');
+const NewORg = require('./ModelAccount.js');
 
 module.exports.create = (req, res) => {
     const newOrg2 = new NewORg({

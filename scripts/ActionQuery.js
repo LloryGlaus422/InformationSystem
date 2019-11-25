@@ -1,7 +1,8 @@
-const NewORg = require('./model.js');
+const query = require('./ModelInquery.js');
+
 function findOrgOne(namei) {
     return new Promise((resolve, reject)=>{
-        NewORg.findOne({name:namei},(err,dbres) =>{
+        query.findOne({name:namei},(err,dbres) =>{
             if(err){
                 reject(err);
             }else{
@@ -13,7 +14,7 @@ function findOrgOne(namei) {
 
 function All() {
     return new Promise((resolve, reject)=>{
-        NewORg.find({},(err,dbres) =>{
+        query.find({},(err,dbres) =>{
             if(err){
                 reject(err);
             }else{
@@ -26,7 +27,7 @@ function All() {
 
 function Update(namei) {
     return new Promise((resolve, reject)=>{
-        NewORg.updateOne({name:namei},(err,dbres) =>{
+        query.updateOne({name:namei},(err,dbres) =>{
             if(err){
                 reject(err);
             }else{
@@ -38,7 +39,7 @@ function Update(namei) {
 
 function Delete(namei) {
     return new Promise((resolve, reject)=>{
-        NewORg.deleteOne({name:namei},(err,dbres) =>{
+        query.deleteOne({name:namei},(err,dbres) =>{
             if(err){
                 reject(err);
             }else{
@@ -54,3 +55,4 @@ module.exports = {
     Update,
     Delete
 }
+
